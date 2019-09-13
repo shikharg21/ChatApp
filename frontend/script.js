@@ -1,8 +1,7 @@
-const socket = io()
+let socket = io()
 socket.on('connected', () => {
     console.log("connected " + socket.id)
 })
-console.log('socket formed on' + socket.id)
 
 $(() => {
     let mssgelist = $('#mssgelist')
@@ -27,9 +26,12 @@ $(() => {
         user = loginbox.val()
         chatdiv.show()
         logindiv.hide()
-
+        socket.emit('login',{
+            user:user
+        })
     })
-    socket.on('recv_mssg', (data) => {
+
+    socket.on('recv_mssge', (data) => {
         mssgelist.append($('<li>' + data.user + ':' + data.message + '</li>'))
     })
 })
